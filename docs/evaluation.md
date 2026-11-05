@@ -1,22 +1,24 @@
-# Physical Robot Evaluation
+# Physical Evaluation
 
-## Overview
+## Objective
 
-After training the ACT policy for 10,000 steps, the saved checkpoint was tested on the physical SO101 robotic arm. The task was to pick up a black box and place it inside a bowl.
+The objective of physical evaluation was to test whether the trained ACT policy could execute the demonstrated pick-and-place task on the physical SO101 robotic arm.
 
-## Evaluation setup
+The task was to pick up a black box and place it inside a bowl.
 
-| Parameter | Configuration |
-|---|---|
-| Robot | SO101 robotic arm |
-| Policy | ACT |
-| Checkpoint | `checkpoint_010000` |
-| Training steps | 10,000 |
-| Input | Camera observation and robot state |
-| Output | Predicted robot actions |
-| Environment | Physical robot |
+## Evaluation Setup
 
-## Results
+- Robot: SO101 follower arm
+- Policy: ACT
+- Training checkpoint: `checkpoint_010000`
+- Training steps: 10,000
+- Execution: Physical robot
+
+The trained checkpoint was executed on the physical robot.
+
+## Evaluation Results
+
+A total of five physical trials were performed.
 
 | Metric | Result |
 |---|---:|
@@ -25,20 +27,34 @@ After training the ACT policy for 10,000 steps, the saved checkpoint was tested 
 | Failed trials | 1 |
 | Observed success rate | 80% |
 
-Observed success rate = (4 successful trials / 5 total trials) × 100 = 80%.
+## Failure Observation
 
-## Failure observation
+In one trial, the black box slipped during grasping.
 
-In one trial, the black box slipped during grasping. Grasp position/alignment, gripper closure, gripping force, and object contact surface are possible factors to investigate. These are possible contributing factors, not confirmed root causes.
+Possible areas to investigate include:
 
-## Interpretation and limitations
+- Grasp alignment
+- Gripper closure
+- Object contact conditions
 
-The policy completed the task in four out of five initial physical trials. Five trials are a small sample; the observed 80% rate is preliminary and not statistically conclusive. This result should not be presented as a guaranteed success rate or evidence of broad generalization.
+These are possible investigation areas, not confirmed root causes.
 
-## Future work
+## Interpretation
 
-- Collect more demonstrations.
-- Increase the number of physical evaluation trials.
-- Improve and evaluate grasp stability.
-- Test object-position variation.
-- Record and analyse additional failure cases.
+The robot successfully completed the task in four out of five observed trials.
+
+The observed 80% success rate is preliminary because the evaluation involved only five trials. A larger number of trials is required to estimate performance more reliably.
+
+## Future Evaluation
+
+Further evaluation should include:
+
+1. More physical execution trials.
+2. Repeated testing under the same initial conditions.
+3. Testing with different object positions.
+4. Investigation of grasp failures.
+5. Evaluation of consistency across repeated executions.
+
+## Conclusion
+
+The experiment demonstrates physical execution of a trained ACT policy on the SO101 robotic arm, with four successful pick-and-place trials out of five observed attempts.
