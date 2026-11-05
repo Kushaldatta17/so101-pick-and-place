@@ -1,13 +1,13 @@
 # SO101 Robotic Arm – ACT-Based Pick-and-Place
 
-A physical robot-learning project using a **SO101 leader–follower robotic arm** and **Hugging Face LeRobot**. The objective is a single manipulation task: pick up a black box and place it inside a bowl.
+A physical robot-learning project using a **SO101 leader–follower robotic arm** and **Hugging Face LeRobot**. The objective is to pick up a black box and place it inside a bowl.
 
 The project follows an imitation-learning workflow: collect human demonstrations, prepare a dataset, train an Action Chunking with Transformers (ACT) policy, and evaluate the trained policy on the physical robot.
 
-## Project results
+## Project Results
 
 | Item | Result |
-|---|---:|
+|---|---|
 | Task | Pick up a black box and place it inside a bowl |
 | Demonstrations | 30 episodes |
 | Dataset frames | 18,471 |
@@ -19,13 +19,13 @@ The project follows an imitation-learning workflow: collect human demonstrations
 | Physical evaluation | 4 successful trials / 5 |
 | Observed success rate | 80% (preliminary; five trials) |
 
-The five-trial result is a small preliminary evaluation, not a statistically conclusive performance estimate. One trial failed when the box slipped during grasping.
+**Evaluation note:** The five-trial result is a small preliminary evaluation, not a statistically conclusive performance estimate. One trial failed when the box slipped during grasping.
 
-## Physical demonstration
+## Physical Demonstration
 
-A physical execution video belongs in [`media/`](media/). Add the video file to that folder and update the link below to its exact filename.
+A video of the trained ACT policy executing the pick-and-place task on the physical SO101 arm is available below.
 
-<!-- Example after uploading: [Watch the physical pick-and-place demonstration](media/pick-and-place-demo.mp4) -->
+[**Watch the physical pick-and-place demonstration**](media/pick-and-placemp4.mp4)
 
 ## Dataset
 
@@ -33,60 +33,119 @@ The combined demonstration dataset is hosted on Hugging Face:
 
 [**kushaldatta96/so101-pick-place-combined**](https://huggingface.co/datasets/kushaldatta96/so101-pick-place-combined)
 
-Dataset details: 30 episodes, 18,471 frames, 30 FPS, one camera at 640 × 480 resolution. The dataset is approximately 257 MB.
+Dataset details:
+- 30 demonstration episodes
+- 18,471 frames
+- 30 FPS
+- One camera
+- Image resolution: 640 × 480
+- Approximate dataset size: 257 MB
 
-## Model and training
+## Model and Training
 
-- Policy: Action Chunking with Transformers (ACT)
-- Vision backbone: ResNet-18
-- Training steps: 10,000
-- Batch size: 32
-- Optimizer: AdamW
-- Learning rate: 1e-5
-- Weight decay: 1e-4
-- Gradient clipping: 10
-- Device: CUDA
+The project uses **Action Chunking with Transformers (ACT)**, an imitation-learning policy that predicts sequences of robot actions from observations.
 
-The reported final metrics were total loss 0.106, L1 loss 0.089, and KL loss 0.002. Training loss alone does not establish real-world success or generalization.
+| Parameter | Value |
+|---|---|
+| Policy | ACT |
+| Vision backbone | ResNet-18 |
+| Training steps | 10,000 |
+| Batch size | 32 |
+| Optimizer | AdamW |
+| Learning rate | 1e-5 |
+| Weight decay | 1e-4 |
+| Gradient clipping | 10 |
+| Training device | CUDA |
 
-The trained checkpoint is stored in a **private** Hugging Face model repository: `kushaldatta96/act_2026-11-03_12-09-21`, checkpoint `checkpoint_010000`. The model weights are not included in this GitHub repository, and the private checkpoint may not be accessible to visitors.
+### Final Training Metrics
 
-## Physical evaluation
+| Metric | Value |
+|---|---:|
+| Total loss | 0.106 |
+| L1 loss | 0.089 |
+| KL loss | 0.002 |
 
-The trained checkpoint was executed on the physical SO101 arm for five trials:
+Training loss alone does not establish real-world success or generalization. Physical evaluation is therefore included separately.
 
-- 4 successful pick-and-place trials
-- 1 failed trial
+### Model Checkpoint
+
+The trained checkpoint is stored in a private Hugging Face model repository:
+
+- Repository: `kushaldatta96/act_2026-11-03_12-09-21`
+- Checkpoint: `checkpoint_010000`
+
+The model weights are not included in this GitHub repository. The Hugging Face repository is private, so visitors may not be able to access the checkpoint.
+
+## Physical Evaluation
+
+The trained 10,000-step checkpoint was executed on the physical SO101 arm for five trials.
+
+- Successful trials: 4
+- Failed trials: 1
 - Observed success rate: 80%
 
-The failed attempt involved the black box slipping during grasping. Grasp alignment, gripper closure, and object contact conditions are possible areas to investigate; they have not been confirmed as root causes.
+The failed attempt involved the black box slipping during grasping. Grasp alignment, gripper closure, and object contact conditions are possible areas to investigate, but the root cause has not been confirmed.
 
-## Repository structure
+The five trials are an initial physical evaluation and should not be treated as a definitive measure of policy performance.
+
+## Repository Structure
 
 ```text
 so101-pick-and-place/
-├── configs/       # ACT and training configuration files
-├── docs/          # Hardware, data collection, training, evaluation
-├── media/         # Physical demonstration video
-├── results/       # Training and evaluation summary
-└── scripts/       # Verified project scripts (add when available)
+├── configs/
+│   ├── README.md
+│   ├── config.json
+│   └── train_config.json
+├── docs/
+│   ├── hardware_setup.md
+│   ├── data_collection.md
+│   ├── training.md
+│   └── evaluation.md
+├── media/
+│   ├── README.md
+│   └── pick-and-placemp4.mp4
+├── results/
+│   └── training_results.md
+├── scripts/
+│   └── README.md
+├── .gitignore
+└── README.md
 ```
+
+**Note:** The `scripts/` folder currently contains documentation, not the original executable project scripts. Verified scripts from the actual experiment can be added later.
 
 ## Documentation
 
-- [Hardware setup](docs/hardware_setup.md)
-- [Data collection](docs/data_collection.md)
+- [Hardware Setup](docs/hardware_setup.md)
+- [Data Collection](docs/data_collection.md)
 - [Training](docs/training.md)
-- [Physical evaluation](docs/evaluation.md)
-- [Training results](results/training_results.md)
-- [Configuration notes](configs/README.md)
-- [Scripts notes](scripts/README.md)
-- [Media notes](media/README.md)
+- [Physical Evaluation](docs/evaluation.md)
+- [Training Results](results/training_results.md)
+- [Configuration Notes](configs/README.md)
+- [Scripts Notes](scripts/README.md)
+- [Media Notes](media/README.md)
 
-## Limitations and future work
+## Limitations and Future Work
 
-The physical evaluation currently contains only five trials. Further work should collect more demonstrations, run more evaluation trials, improve grasp reliability, test object-position variation, and document repeatable setup and execution commands.
+The current physical evaluation consists of only five trials. Further work should focus on:
 
-## Technologies
+- Collecting additional demonstration episodes.
+- Running more physical evaluation trials.
+- Improving grasp reliability.
+- Testing the policy with variations in object position.
+- Documenting repeatable setup, training, and execution commands.
+- Adding verified executable scripts to the repository.
 
-Python · Hugging Face LeRobot · ACT · PyTorch · SO101 · CUDA
+## Technologies Used
+
+- Python
+- Hugging Face LeRobot
+- Action Chunking with Transformers (ACT)
+- PyTorch
+- SO101 robotic arm
+- Feetech servo motors
+- CUDA
+
+---
+
+**Project focus:** Physical robot learning, imitation learning, ACT policy training, and real-world robotic manipulation.
