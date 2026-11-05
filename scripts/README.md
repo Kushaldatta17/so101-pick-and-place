@@ -1,32 +1,46 @@
-# Training and Execution Scripts
+# Training and Execution Workflow
 
-## Training Workflow
+## Overview
 
-The ACT policy was trained using the LeLab interface built around Hugging Face LeRobot.
+The SO101 pick-and-place project was trained and physically evaluated using the LeLab interface built around Hugging Face LeRobot.
 
-Training was configured through the LeLab interface rather than a custom standalone Python training script.
+Both training and physical policy execution were launched through the LeLab graphical interface rather than custom standalone Python scripts.
 
-### Training Configuration
+## 1. ACT Training
 
-- Dataset: `kushaldatta96/so101-pick-place-combined`
-- Policy: ACT (Action Chunking with Transformers)
-- Training steps: 10,000
-- Batch size: 32
-- Optimizer: AdamW
-- Learning rate: `1e-5`
-- Weight decay: `1e-4`
-- Compute device: CUDA
+The ACT policy was trained using the combined demonstration dataset.
 
-The complete configuration files are available in the [`configs/`](../configs/) directory.
+| Parameter | Value |
+|---|---|
+| Dataset | `kushaldatta96/so101-pick-place-combined` |
+| Policy | ACT |
+| Training steps | 10,000 |
+| Batch size | 32 |
+| Optimizer | AdamW |
+| Learning rate | 1e-5 |
+| Weight decay | 1e-4 |
+| Device | CUDA |
 
-## Physical Policy Execution
+The complete experiment configuration is documented in the `configs/` directory.
 
-The trained checkpoint was evaluated on the physical SO101 leader–follower robotic arm.
+## 2. Physical Policy Execution
 
-The execution workflow used the trained ACT policy and the robot's camera and state observations to generate actions.
+After training, the saved ACT checkpoint was loaded through the LeLab interface and executed on the physical SO101 robotic arm.
 
-## Script Availability
+The robot performed the black-box pick-and-place task using its visual and robot-state observations.
 
-Custom training and physical execution scripts are not included because the experiment was launched through the LeLab interface and the exact original executable files have not yet been recovered.
+Checkpoint: `checkpoint_010000`
 
-The repository documents the experiment and its configuration without presenting unverified scripts as original project code.
+## 3. Physical Evaluation
+
+Five physical execution trials were performed:
+
+- Successful trials: 4
+- Failed trials: 1
+- Observed success rate: 80%
+
+## 4. Script Availability
+
+The original experiment was launched through the LeLab graphical interface. The exact underlying executable scripts have not been independently recovered.
+
+This repository therefore documents the actual workflow and configuration rather than presenting newly created scripts as original experiment files.
