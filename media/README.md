@@ -1,7 +1,28 @@
 # Project Media
 
-Place the physical SO101 pick-and-place demonstration video in this directory.
+## Physical Demonstration
 
-Suggested filename: `pick-and-place-demo.mp4`
+This directory contains the physical demonstration video for the SO101 ACT-based pick-and-place project.
 
-Before publishing, check that the video does not expose private information or unwanted location metadata. The actual video is not included in this source package; add your own verified demonstration recording.
+The video demonstrates the trained policy executing the task of picking up a black box and placing it inside a bowl.
+
+## Video
+
+Current video filename:
+
+`pick-and-placemp4.mp4`
+
+[Watch the physical demonstration](pick-and-placemp4.mp4)
+
+## Project
+
+- Robot: SO101 robotic arm
+- Policy: ACT
+- Task: Black box pick-and-place
+- Execution: Physical robot
+
+## Notes
+
+The video is included as a visual demonstration of physical policy execution.
+
+The reported evaluation result is four successful trials out of five. The video should not be interpreted as evidence that every execution attempt succeeds.
