@@ -1,45 +1,79 @@
 # ACT Policy Training
 
-## Dataset
+## Overview
 
-The ACT policy was trained using the combined SO101 pick-and-place demonstration dataset:
+The project uses Action Chunking with Transformers (ACT), an imitation-learning approach that learns robot actions from human demonstrations.
 
-[kushaldatta96/so101-pick-place-combined](https://huggingface.co/datasets/kushaldatta96/so101-pick-place-combined)
+The policy was trained using the SO101 pick-and-place demonstration dataset hosted on Hugging Face.
 
-## Training configuration summary
+## Training Dataset
+
+Dataset repository:
+
+`kushaldatta96/so101-pick-place-combined`
 
 | Parameter | Value |
-|---|---:|
+|---|---|
+| Episodes | 30 |
+| Frames | 18,471 |
+| FPS | 30 |
+| Camera | 1 |
+| Image resolution | 640 × 480 |
+
+## ACT Architecture
+
+The training configuration specifies the following architecture:
+
+| Parameter | Value |
+|---|---|
 | Policy | ACT |
-| Training steps | 10,000 |
-| Batch size | 32 |
-| Optimizer | AdamW |
-| Learning rate | 1e-5 |
-| Weight decay | 1e-4 |
-| Gradient clipping | 10 |
 | Vision backbone | ResNet-18 |
 | Model dimension | 512 |
 | Attention heads | 8 |
+| Feedforward dimension | 3200 |
 | Encoder layers | 4 |
 | Decoder layers | 1 |
 | Chunk size | 100 |
 | Observation steps | 1 |
-| Device | CUDA |
+| Action steps | 100 |
+| Latent dimension | 32 |
+| VAE | Enabled |
+| Dropout | 0.1 |
+| KL weight | 10.0 |
+
+## Training Hyperparameters
+
+| Parameter | Value |
+|---|---|
+| Training steps | 10,000 |
+| Batch size | 32 |
+| Optimizer | AdamW |
+| Learning rate | 0.00001 |
+| Weight decay | 0.0001 |
+| Gradient clipping norm | 10 |
 | Random seed | 1000 |
+| Device | CUDA |
+| Mixed precision | Disabled |
 
-Refer to the original files in `configs/` for the complete run configuration.
+## Training Configuration
 
-## Reported training metrics
+The experiment used the following settings:
 
-| Step | Total loss |
-|---:|---:|
-| 6,000 | 0.145 |
-| 7,000 | 0.130 |
-| 8,000 | 0.119 |
-| 9,000 | 0.115 |
-| 10,000 | 0.106 |
+- Dataset repository: `kushaldatta96/so101-pick-place-combined`
+- Policy type: ACT
+- Checkpoint saving: Enabled
+- Checkpoint interval: Every 1,000 steps
+- Checkpoint format: Safetensors
+- Model repository: `kushaldatta96/act_2026-11-03_12-09-21`
 
-Final reported metrics:
+The full configuration is documented in:
+
+- `configs/config.json`
+- `configs/train_config.json`
+
+## Training Results
+
+The reported final metrics were:
 
 | Metric | Value |
 |---|---:|
@@ -47,13 +81,16 @@ Final reported metrics:
 | L1 loss | 0.089 |
 | KL loss | 0.002 |
 
-Training loss alone does not establish real-world task success or generalization.
+These are training metrics and should not be interpreted as direct measurements of physical task success.
 
 ## Checkpoint
 
-- Hugging Face repository: `kushaldatta96/act_2026-11-03_12-09-21`
-- Checkpoint: `checkpoint_010000`
-- Training steps: 10,000
-- Repository visibility: Private
+The trained checkpoint is:
 
-The checkpoint was used for physical evaluation. Model weights are not included in this GitHub repository.
+`checkpoint_010000`
+
+It is stored in a private Hugging Face model repository. The model weights are not included in this GitHub repository.
+
+## Important Notes
+
+The configuration files document the reported experiment. Exact reproduction also requires the original software environment, compatible LeRobot version, dataset, hardware and execution scripts.
