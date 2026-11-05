@@ -1,16 +1,47 @@
 # Training and Evaluation Results
 
-## Experiment
+## Experiment Summary
 
-- Task: SO101 black-box pick-and-place into a bowl
-- Dataset: [kushaldatta96/so101-pick-place-combined](https://huggingface.co/datasets/kushaldatta96/so101-pick-place-combined)
-- Dataset size: 30 episodes, 18,471 frames
-- Policy: ACT
-- Training steps: 10,000
+This experiment trained an ACT policy using demonstrations collected with a physical SO101 leader–follower robotic arm.
 
-## Training loss
+The objective was to pick up a black box and place it inside a bowl.
 
-| Step | Total loss |
+## Dataset
+
+| Parameter | Result |
+|---|---|
+| Dataset repository | `kushaldatta96/so101-pick-place-combined` |
+| Episodes | 30 |
+| Frames | 18,471 |
+| FPS | 30 |
+| Camera count | 1 |
+| Resolution | 640 × 480 |
+| Approximate size | 257 MB |
+
+## Training Configuration
+
+| Parameter | Value |
+|---|---|
+| Policy | ACT |
+| Training steps | 10,000 |
+| Batch size | 32 |
+| Optimizer | AdamW |
+| Learning rate | 1e-5 |
+| Weight decay | 1e-4 |
+| Gradient clipping | 10 |
+| Backbone | ResNet-18 |
+| Model dimension | 512 |
+| Attention heads | 8 |
+| Encoder layers | 4 |
+| Decoder layers | 1 |
+| Chunk size | 100 |
+| Device | CUDA |
+
+## Training Loss
+
+Reported loss progression:
+
+| Training step | Total loss |
 |---:|---:|
 | 6,000 | 0.145 |
 | 7,000 | 0.130 |
@@ -18,7 +49,7 @@
 | 9,000 | 0.115 |
 | 10,000 | 0.106 |
 
-## Final reported metrics
+### Final Metrics
 
 | Metric | Value |
 |---|---:|
@@ -26,30 +57,41 @@
 | L1 loss | 0.089 |
 | KL loss | 0.002 |
 
-## Checkpoint
+The loss values describe the training run and do not independently establish real-world task performance.
 
-- Hugging Face repository: `kushaldatta96/act_2026-11-03_12-09-21`
-- Checkpoint: `checkpoint_010000`
-- Visibility: Private
+## Physical Robot Evaluation
 
-The checkpoint was used for physical evaluation. Model weights are not included in this repository.
+The trained 10,000-step checkpoint was tested on the physical SO101 arm.
 
-## Physical evaluation
-
-| Metric | Result |
+| Evaluation metric | Result |
 |---|---:|
 | Total trials | 5 |
 | Successful trials | 4 |
 | Failed trials | 1 |
 | Observed success rate | 80% |
 
-In one trial, the black box slipped during grasping. Grasp position, gripper closure, and object contact conditions are possible areas for investigation. This five-trial evaluation is preliminary and not statistically conclusive.
+One failed trial involved the box slipping during grasping.
 
-## Key outcomes
+This five-trial result is preliminary and is not a statistically conclusive performance estimate.
 
-- Combined 30 teleoperation demonstrations.
-- Trained an ACT policy for 10,000 steps.
-- Reached a final reported training loss of 0.106.
-- Executed the trained checkpoint on the physical SO101.
-- Completed four out of five initial trials successfully.
-- Identified grasp stability as an area for improvement.
+## Checkpoint Information
+
+- Model repository: `kushaldatta96/act_2026-11-03_12-09-21`
+- Checkpoint: `checkpoint_010000`
+- Repository visibility: Private
+- Model weights: Not included in this GitHub repository
+
+## Key Findings
+
+- The ACT policy completed physical pick-and-place execution.
+- Four of the five observed trials were successful.
+- One trial failed during grasping.
+- Additional physical trials are needed to evaluate reliability.
+
+## Future Improvements
+
+- Increase demonstration dataset size.
+- Improve grasp reliability.
+- Test different object positions.
+- Perform more physical evaluation trials.
+- Publish verified execution scripts and reproducibility instructions.
