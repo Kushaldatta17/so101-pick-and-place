@@ -25,7 +25,11 @@ The project follows an imitation-learning workflow: collect human demonstrations
 
 A video of the trained ACT policy executing the pick-and-place task on the physical SO101 arm is available below.
 
-[**Watch the physical pick-and-place demonstration**](media/pick-and-placemp4.mp4)
+[**Watch the physical pick-and-place demonstration**](
+
+https://github.com/user-attachments/assets/c3684f3b-69d2-4262-b630-b0155ec5631f
+
+)
 
 ## Dataset
 
