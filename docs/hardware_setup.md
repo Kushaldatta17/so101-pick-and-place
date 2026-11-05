@@ -1,36 +1,55 @@
 # Hardware Setup
 
-## Task
+## Project Hardware
 
-The project uses a physical SO101 robotic arm to pick up a black box and place it inside a bowl.
+This project uses a physical SO101 leader–follower robotic arm setup for imitation-learning-based pick-and-place manipulation.
 
-## Hardware components
+### Hardware Components
 
-| Component | Role |
+| Component | Purpose |
 |---|---|
-| SO101 leader arm | Human-operated input for demonstrations |
-| SO101 follower arm | Executes the demonstrated movements |
-| Feetech servos | Actuate the robot joints |
+| SO101 Leader Arm | Human-operated demonstration input |
+| SO101 Follower Arm | Executes the learned robot actions |
+| Feetech Servo Motors | Control the robot joints |
 | Camera | Captures visual observations |
-| USB/serial connection | Connects the robot control interface to the computer |
-| Power supply | Supplies the servo system |
+| Computer with CUDA support | Runs model training and inference |
 
-## Software environment
+## Software Environment
 
-| Component | Used environment |
+The project uses:
+
+- Python
+- Hugging Face LeRobot
+- PyTorch
+- ACT (Action Chunking with Transformers)
+- CUDA for GPU training
+
+## Robot Configuration
+
+The ACT policy uses the following observation and action features:
+
+| Feature | Shape |
 |---|---|
-| Host operating system | Windows 11 |
-| Linux environment | Ubuntu 22.04 through WSL 2 |
-| Robotics framework | Hugging Face LeRobot |
-| Programming language | Python |
-| ML framework | PyTorch |
-| Policy | ACT |
+| Robot state | 6 |
+| Camera image | 3 × 480 × 640 |
+| Robot action | 6 |
 
-## Leader–follower workflow
+The six-dimensional state and action representations correspond to the features configured for this experiment.
 
-1. Connect and calibrate the leader and follower arms.
-2. Verify the camera feed and robot connection.
-3. Use the leader arm to demonstrate the pick-and-place task.
-4. Record the follower observations and actions through LeRobot.
+## Hardware Setup Workflow
 
-Use the exact port names, calibration files, and power requirements from the working hardware setup. They are intentionally not hard-coded here because device paths and hardware revisions can differ.
+1. Connect the leader and follower arms.
+2. Connect the camera used for visual observations.
+3. Verify that the robot and camera are detected by the computer.
+4. Check the robot calibration and communication.
+5. Confirm that the follower can execute commands safely.
+6. Prepare the environment for demonstration collection.
+
+## Important Notes
+
+- Verify servo power requirements before connecting the robot.
+- Confirm the correct serial ports before running LeRobot commands.
+- Check motor calibration before physical execution.
+- Keep hands and objects clear of the robot's movement area during testing.
+
+The exact wiring diagram, power-supply specification and serial-port assignments should be documented using the actual hardware setup used in the experiment.
