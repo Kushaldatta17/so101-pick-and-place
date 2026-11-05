@@ -1,46 +1,32 @@
-# Project Scripts
+# Training and Execution Scripts
 
-## Overview
+## Training Workflow
 
-This directory is reserved for the executable scripts used in the SO101 ACT pick-and-place project.
+The ACT policy was trained using the LeLab interface built around Hugging Face LeRobot.
 
-The project workflow involves:
+Training was configured through the LeLab interface rather than a custom standalone Python training script.
 
-1. Robot connection and calibration.
-2. Demonstration collection.
-3. Dataset preparation.
-4. ACT policy training.
-5. Physical policy execution.
-6. Evaluation and result recording.
+### Training Configuration
+
+- Dataset: `kushaldatta96/so101-pick-place-combined`
+- Policy: ACT (Action Chunking with Transformers)
+- Training steps: 10,000
+- Batch size: 32
+- Optimizer: AdamW
+- Learning rate: `1e-5`
+- Weight decay: `1e-4`
+- Compute device: CUDA
+
+The complete configuration files are available in the [`configs/`](../configs/) directory.
+
+## Physical Policy Execution
+
+The trained checkpoint was evaluated on the physical SO101 leader–follower robotic arm.
+
+The execution workflow used the trained ACT policy and the robot's camera and state observations to generate actions.
 
 ## Script Availability
 
-The original executable scripts used in the successful experiment have not yet been added to this repository.
+Custom training and physical execution scripts are not included because the experiment was launched through the LeLab interface and the exact original executable files have not yet been recovered.
 
-They should only be added after verifying that they correspond to the actual experiment.
-
-## Recommended Organization
-
-```text
-scripts/
-├── README.md
-├── record_episodes.py
-├── train_act.py
-├── evaluate_policy.py
-└── run_policy.py
-```
-
-These are suggested filenames and organization, not verified original scripts.
-
-## Reproducibility
-
-Before adding scripts, verify:
-
-- LeRobot version and command arguments.
-- Dataset repository and configuration.
-- ACT training settings.
-- Checkpoint path.
-- Robot connection and camera settings.
-- Physical execution procedure.
-
-Do not treat the suggested filenames as executable files until the actual scripts have been added and tested.
+The repository documents the experiment and its configuration without presenting unverified scripts as original project code.
